@@ -1,0 +1,12 @@
+{
+"name":"TriggerWarning - Alpha",
+"description":"Removes Triggering content from Twitter and Facebook.",
+"version":"1",
+"manifest_version":2,
+"content_scripts": [
+    {
+      "matches": ["http://twitter.com/*"],
+      "js": ["jquery-latest.js","customScript.js"]
+    }
+  ]
+}
