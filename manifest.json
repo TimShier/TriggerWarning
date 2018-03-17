@@ -5,7 +5,7 @@
 "manifest_version":2,
 "content_scripts": [
     {
-      "matches": ["https://twitter.com/*"],
+      "matches": ["https://twitter.com/*","http://twitter.com/*"],
       "js": ["jquery-latest.js","customScript.js"]
     }
   ]
