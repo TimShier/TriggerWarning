@@ -19,7 +19,7 @@ var isFirstIteration = true;
 
 var tid = setInterval(makePageSafe, 500);
 
-var badWords = ["Chicken", "cow"];
+var badWords = [];
 
 function testStringAgainstWords(string, words){
   var hasBadWords = false;
@@ -34,6 +34,26 @@ function testStringAgainstWords(string, words){
   }
   return hasBadWords;
 }
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+
+    console.log(request.badWords);
+    var responseHolder = ""
+    if (request.functionName == "badWords"){
+      console.log("Badwords inbound" +request.badWords);
+      // now that we have the bad words, let's add them to the badWords array.
+      for(var x = 0; x < request.badWords.length;x++){
+        badWords.push(request.badWords[x]);
+      }
+
+      console.log(badWords);
+    }
+    sendResponse({status: "GotEm" + responseHolder});
+  });
 
 function makePageSafe() {
   $(".tweet").each(function() {
