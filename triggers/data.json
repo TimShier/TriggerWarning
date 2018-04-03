@@ -1,0 +1,17 @@
+{
+    "version":"0.1",
+    "badCategories": {
+        "Dog": {
+            "name": "Dog",
+            "safeWord":"Domesticated four legged animal. Chases Cats",
+            "badWords":["dog", "k9", "canine"],
+            "status": "S"
+        },
+        "Cat": {
+            "name": "Cat",
+            "safeWord":"Domesticated four legged animal. Dog's chase them.",
+            "badWords":["cat", "meow", "feline"],
+            "status": "H"
+        }
+    }
+}
