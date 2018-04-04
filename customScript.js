@@ -1,3 +1,5 @@
+
+
 $(document).ready(function() {
   // update title to let us know we're covered.
   document.title = 'TW - we got ya!';
@@ -80,7 +82,7 @@ function getCategorySafeWord(categoryNameArray){
         else
         {
             // it's not the first, add a comma...
-            returnString = returnString + ", " + data.badCategories[categoryName].safeWord;
+            returnString = returnString + ", " + data.badCategories[categoryNameArray[cArr]].safeWord;
         }
     }
 
@@ -88,6 +90,79 @@ function getCategorySafeWord(categoryNameArray){
     return returnString;
 
 }
+
+function loadAndMergeSettings(){
+    chrome.storage.sync.get(["triggerSettings"],
+        function(items) {
+            // process the items into an array.
+            console.log("triggerSettings being collected");
+            // but first, we need to make sure it exists. It won't on the first load.
+            if(items.hasOwnProperty("triggerSettings")){
+                console.log("triggerSettings is found");
+                // awesome, we have a save for this profile.
+                // next, we need to split the string by commas
+                // and iterate over each. For each change the checked status
+                // for that id="category_<key>"
+                console.log(items.triggerSettings);
+                data = mergeDataWithSavedSettings(data, items.triggerSettings);
+                console.log("done with merge");
+                // now that we have the data. Let's create the page
+            }
+            else {
+                console.log("triggerCategory isn't set");
+            }
+
+        });
+}
+
+function mergeDataWithSavedSettings(tmpDataJson, tmpSettingsString){
+    // takes a data object and the settings
+    // for each item in the settings update the tmpData
+    // with that config and return the tmpData.
+    // settings format a semi-colon seperated string of form
+    // categoryName[* len]--status[0,S,H]--color[hex without #];categoryName2[* len]--status2[0,S,H]--color2[hex without #];
+
+    // 1 split it into it's parts by semi-comma
+    // 2 for each in array, look up the appropriate place in tmpData and make necessary updates
+    // 3 return tmpData.
+
+    console.log("tmpJson is");
+    console.log(tmpDataJson);
+    console.log("tmpJson was");
+
+    console.log("tmpSettingString is");
+    console.log(tmpSettingsString);
+    console.log("tmpSettingString was");
+
+    var tmpSettingsArray = tmpSettingsString.split(";");
+    console.log(tmpSettingsArray);
+    for(var yer = 0 ; yer < tmpSettingsArray.length;yer++){
+        var curSetting = tmpSettingsArray[yer];
+
+        if(curSetting.length>1){
+
+            // TODO
+            // TODO - there's blank objects in the mix. There shouldn't be. This is a quick fix for this
+            // TODO
+
+            // now that we have it, let's break it up by "--"
+            var curSettingArray = curSetting.split("--");
+            // 0 = categoryName
+            // 1 = status
+            // 2 = color
+            console.log("curSettings is");
+            console.log(curSettingArray);
+            console.log("curSettings was");
+            tmpDataJson.badCategories[curSettingArray[0]].status = curSettingArray[1];
+            tmpDataJson.badCategories[curSettingArray[0]].color = curSettingArray[2];
+        }
+
+
+    }
+    return tmpDataJson;
+
+}
+
 function buildWordsList(){
     // use data to build a words list
     // return this word list
@@ -151,6 +226,8 @@ chrome.runtime.onMessage.addListener(
             // all the data has been loaded as hoped.
             canStart = true;
 
+            // we've got a new data... merge it against the settings...
+            loadAndMergeSettings();
 
           console.log(data);
         }
@@ -190,10 +267,14 @@ function makePageSafe() {
                 // determine what to do. 0 = do nothing. S = soft block and H = hard block.
 
                 var overallStatus = "0";// do nothing.
+                var overallColor = "770000";
                 for (var w = 0; w < tmpCat.length; w++) {
                     var tmpStatus = getCategoryStatus(tmpCat[w]);
-                    if (tmpStatus == "S" && overallStatus == "0")
+                    if (tmpStatus == "S" && (overallStatus == "0" || overallStatus == "S")){
+                        overallColor = data.badCategories[tmpCat[w]].color;
                         overallStatus = tmpStatus;
+                    }
+
                     if (tmpStatus == "H" && (overallStatus == "0" || overallStatus == "S" ))
                         overallStatus = tmpStatus;
                 }
@@ -202,7 +283,7 @@ function makePageSafe() {
                 if (overallStatus == "S") {
                     // do a soft block... change background to redish.
                     console.log("Soft Hiding");
-                    $(this).css("background","#550000");
+                    $(this).css("background","#"+overallColor);
                     triggersRemoved++;
                 }
                 else if (overallStatus == "H") {

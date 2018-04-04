@@ -5,13 +5,22 @@
             "name": "Dog",
             "safeWord":"Domesticated four legged animal. Chases Cats",
             "badWords":["dog", "k9", "canine"],
-            "status": "S"
+            "status": "0",
+            "color": "007700"
         },
         "Cat": {
             "name": "Cat",
             "safeWord":"Domesticated four legged animal. Dog's chase them.",
             "badWords":["cat", "meow", "feline"],
-            "status": "H"
+            "status": "0",
+            "color": "000077"
+        },
+        "Birds": {
+            "name": "Birds",
+            "safeWord":"They fly. They eat seed.",
+            "badWords":["bird", "chirp", "flock"],
+            "status": "0",
+            "color": "000077"
         }
     }
 }

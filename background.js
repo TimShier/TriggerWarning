@@ -76,7 +76,7 @@ function loadBadWords(callback){
                     }
                     console.log(value.fullPath);
 
-            });;
+            });
         });
     });
 
