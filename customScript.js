@@ -92,7 +92,7 @@ function getCategorySafeWord(categoryNameArray){
 }
 
 function loadAndMergeSettings(){
-    chrome.storage.sync.get(["triggerSettings"],
+    chrome.storage.sync.get(["triggerSettings", "triggerCustomCategory"],
         function(items) {
             // process the items into an array.
             console.log("triggerSettings being collected");
@@ -112,7 +112,32 @@ function loadAndMergeSettings(){
                 console.log("triggerCategory isn't set");
             }
 
+            if(items.hasOwnProperty("triggerCustomCategory")){
+                console.log("triggerCustomCategory is found");
+                // look at the triggerCustomCategory. This is the same
+                // as any single category in the JSON but is saved locally
+                // instead of referencing the core JSON.
+
+                console.log(items.triggerCustomCategory);
+                data = mergeDataWithCustomCategory(data, items.triggerCustomCategory);
+                console.log("done with merge");
+                // now that we have the data. Let's create the page
+            }
+            else {
+                console.log("triggerCategory isn't set");
+            }
+
         });
+}
+
+function mergeDataWithCustomCategory(tmpDataJson, tmpCustomCategory){
+    // merge a new category with the current data...
+    // no tests for duplicates or anything... rough and ready.
+    // let's do it
+    var currentKey = Object.keys(tmpCustomCategory)[0]
+    tmpDataJson.badCategories[currentKey] = tmpCustomCategory[currentKey]
+
+    return tmpDataJson
 }
 
 function mergeDataWithSavedSettings(tmpDataJson, tmpSettingsString){

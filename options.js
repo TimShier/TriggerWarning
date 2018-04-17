@@ -9,6 +9,18 @@
 var data = {};
 
 
+
+// TODO has not been updated for custom settings...
+
+function mergeDataWithCustomCategory(tmpDataJson, tmpCustomCategory){
+    // merge a new category with the current data...
+    // no tests for duplicates or anything... rough and ready.
+    // let's do it
+    var currentKey = Object.keys(tmpCustomCategory)[0]
+    tmpDataJson.badCategories[currentKey] = tmpCustomCategory[currentKey]
+    return tmpDataJson
+}
+
 function mergeDataWithSavedSettings(tmpDataJson, tmpSettingsString){
     // takes a data object and the settings
     // for each item in the settings update the tmpData
@@ -91,7 +103,7 @@ function configPage(){
                                 // do the callback here
                                 data = jsonResult;
 
-                                chrome.storage.sync.get(["triggerSettings"],
+                                chrome.storage.sync.get(["triggerSettings", "triggerCustomCategory"],
                                     function(items) {
                                         // process the items into an array.
                                         console.log("triggerSettings being collected");
@@ -111,10 +123,29 @@ function configPage(){
                                             console.log("triggerCategory isn't set");
                                         }
 
+                                        if(items.hasOwnProperty("triggerCustomCategory")){
+                                            console.log("triggerCustomCategory is found");
+                                            // look at the triggerCustomCategory. This is the same
+                                            // as any single category in the JSON but is saved locally
+                                            // instead of referencing the core JSON.
+
+                                            console.log(items.triggerCustomCategory);
+                                            data = mergeDataWithCustomCategory(data, items.triggerCustomCategory);
+                                            console.log("done with merge");
+                                            // now that we have the data. Let's create the page
+                                        }
+                                        else {
+                                            console.log("triggerCategory isn't set");
+                                        }
+
+                                        var isCustom = false;
                                         for(var xer in data.badCategories){
                                             // for each badCategory...
                                             var curData = data.badCategories[xer];
                                             // this is a bad way to do it but we can improve this later...
+                                            if(curData.isCustom == true){
+                                                isCustom = true;
+                                            }
                                             if(curData.status == "H"){
                                                 $("#triggerCatHolder").append("<label>"+curData.name+"</label>" +
                                                     "<select id='category_status_"+curData.name+"'><option value='0'>Don't block</option><option value='S'>Soft Block</option><option value='H' selected='selected'>Hard Block</option></select>" +
@@ -138,6 +169,24 @@ function configPage(){
                                             }
 
                                         }
+
+                                        if(!isCustom){
+                                            // add the ability to add custom vars
+                                            $("#triggerCatHolder").append("<p id='addCustom'>Add Custom Category</p>");
+                                            $("#triggerCatHolder").append("<div id='customCategory' style='display:none;'>" +
+                                                "<input type='text' id='customName'/>" +
+                                                "<select id='custom_status'><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select>" +
+                                                "<label>Colour:</label><input type='text'  id='custom_color' value='FF0000'><br/>" +
+                                                "<label>Safe Sentence:</label><input type='text' id='customSafe'>"+
+                                                "<label>Triggering Words, comma seperated, no spaces:</label><input type='text' id='customBad'>"+
+                                                "<p id='saveCustom'>Save Custom Category</p>"+
+                                                "</div>");
+
+                                            // add listeners for add Custom etc.
+                                            document.getElementById('addCustom').addEventListener('click',makeCustom);
+                                            document.getElementById('saveCustom').addEventListener('click',saveCustom);
+                                        }
+
                                     });
                                 //callback(jsonResult);
                                 console.log("JSON result end");
@@ -155,6 +204,48 @@ function configPage(){
 
             });
         });
+    });
+
+
+}
+
+function makeCustom(){
+    alert("makingCustom");
+    $("#addCustom").hide();
+    $("#customCategory").show();
+
+}
+
+function saveCustom(){
+    // create a JSON object and populate it as if it were a badCategory.
+    var jsonObject = {};
+
+    // now, let's get hold of the variables we need.
+    var name = $("#customName").val();
+    var status = $("#custom_status").val();
+    var colour = $("#custom_color").val();
+    var safeWords = $("#customSafe").val();
+    var badWords = $("#customBad").val(); // need to turn into ["word1", "word2", "word3"] before can save.
+
+    var newBadWords = badWords.split(",");
+
+
+    // add it all to the object...
+    jsonObject[name] = {"name":name, "safeWords": safeWords, "badWords": newBadWords,"status": status, "color":colour, "isCustom":true};
+//    "Cat": {
+//        "name": "Cat",
+//            "safeWord":"Domesticated four legged animal. Dog's chase them.",
+//            "badWords":["cat", "meow", "feline"],
+//            "status": "0",
+//            "color": "000077"
+//    }
+
+
+    alert("saving custom!");
+    chrome.storage.sync.set({
+        "triggerCustomCategory": jsonObject
+    }, function() {
+        console.log("triggerCustomCategory saved: " + jsonObject);
     });
 }
 

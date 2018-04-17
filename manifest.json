@@ -1,7 +1,7 @@
 {
 "name":"TriggerWarning - Alpha",
 "description":"Removes Triggering content from Twitter and Facebook.",
-"version":"2",
+"version":"4",
 "manifest_version":2,
 "permissions": ["storage","tabs"],
 "icons": { "73": "logo.jpg"},
