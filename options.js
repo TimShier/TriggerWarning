@@ -149,14 +149,14 @@ function configPage(){
                                             if(curData.status == "H"){
                                                 $("#triggerCatHolder").append("<label>"+curData.name+"</label>" +
                                                     "<select id='category_status_"+curData.name+"'><option value='0'>Don't block</option><option value='S'>Soft Block</option><option value='H' selected='selected'>Hard Block</option></select>" +
-                                                    "<label>Colour:</label><input type='text'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
+                                                    "<label>Colour:</label><input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
                                                     "Color:"+curData.color+" Status: "+ curData.status +"<br/>");
 
                                             }
                                             else if(curData.status == "S"){
                                                 $("#triggerCatHolder").append("<label>"+curData.name+"</label>" +
                                                     "<select id='category_status_"+curData.name+"'><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select>" +
-                                                    "<label>Colour:</label><input type='text'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
+                                                    "<label>Colour:</label><input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
                                                     "Color:"+curData.color+" Status: "+ curData.status +"<br/>");
 
                                             }
@@ -164,7 +164,7 @@ function configPage(){
                                             {
                                                 $("#triggerCatHolder").append("<label>"+curData.name+"</label>" +
                                                     "<select id='category_status_"+curData.name+"'><option value='0' selected='selected'>Don't block</option><option value='S'>Soft Block</option><option value='H'>Hard Block</option></select>" +
-                                                    "<label>Colour:</label><input type='text'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
+                                                    "<label>Colour:</label><input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
                                                     "Color:"+curData.color+" Status: "+ curData.status +"<br/>");
                                             }
 
@@ -176,7 +176,7 @@ function configPage(){
                                             $("#triggerCatHolder").append("<div id='customCategory' style='display:none;'>" +
                                                 "<input type='text' id='customName'/>" +
                                                 "<select id='custom_status'><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select>" +
-                                                "<label>Colour:</label><input type='text'  id='custom_color' value='FF0000'><br/>" +
+                                                "<label>Colour:</label><input class='jscolor' id='custom_color' value='FF0000'><br/>" +
                                                 "<label>Safe Sentence:</label><input type='text' id='customSafe'>"+
                                                 "<label>Triggering Words, comma seperated, no spaces:</label><input type='text' id='customBad'>"+
                                                 "<p id='saveCustom'>Save Custom Category</p>"+
@@ -186,7 +186,6 @@ function configPage(){
                                             document.getElementById('addCustom').addEventListener('click',makeCustom);
                                             document.getElementById('saveCustom').addEventListener('click',saveCustom);
                                         }
-
                                     });
                                 //callback(jsonResult);
                                 console.log("JSON result end");
@@ -404,6 +403,14 @@ function restoreSettings() {
 
 
 
+}
+
+// takes an url and adds that script to the head/body
+function dynamicallyLoadScript(url) {
+    var script = document.createElement("script"); // Make a script DOM node
+    script.src = url; // Set it's src to the provided URL
+
+    document.body.appendChild(script); // Add it to the end of the head section of the page (could change 'head' to 'body' to add it to the end of the body section instead)
 }
 document.addEventListener('DOMContentLoaded', configPage);
 document.getElementById('save').addEventListener('click',saveSettings);

@@ -23,6 +23,23 @@ chrome.runtime.onMessage.addListener(
     sendResponse({status: "busy and stuff." + responseHolder});
 });
 
+
+chrome.runtime.onInstalled.addListener(function (object) {
+
+    // open the options page...
+
+    if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+    } else {
+        window.open(chrome.runtime.getURL('options.html'));
+    }
+
+    // on install or update, take the user to the CDC website so they can read up more (in particular the disclaimer)
+    chrome.tabs.create({url: "http://citizendialoguecentre.org/about-us/values-statement/"}, function (tab) {
+        console.log("New tab launched with http://citizendialoguecentre.org/about-us/values-statement/");
+    });
+});
+
 function loadBadWords(callback){
     // open /triggers/data.json and send the contents to customScript.js (aka all tabs).
     chrome.runtime.getPackageDirectoryEntry(function(root) {
