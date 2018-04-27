@@ -13,7 +13,7 @@
             "144": "./icons/favicon-144.png",
             "152": "./icons/favicon-152.png",
             "256": "./icons/favicon-256.png"},
-"options_page": "options.html",
+"options_page": "/options/index.html",
 "background": {
     "scripts": ["background.js"]
   },

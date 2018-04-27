@@ -147,45 +147,45 @@ function configPage(){
                                                 isCustom = true;
                                             }
                                             if(curData.status == "H"){
-                                                $("#triggerCatHolder").append("<label>"+curData.name+"</label>" +
-                                                    "<select id='category_status_"+curData.name+"'><option value='0'>Don't block</option><option value='S'>Soft Block</option><option value='H' selected='selected'>Hard Block</option></select>" +
-                                                    "<label>Colour:</label><input type='text'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
-                                                    "Color:"+curData.color+" Status: "+ curData.status +"<br/>");
+                                                $("#triggerCatHolder").append("<h3>"+curData.name+"</h3>" +
+                                                    "<select id='category_status_"+curData.name+"' ><option value='0'>Don't block</option><option value='S'>Soft Block</option><option value='H' selected='selected'>Hard Block</option></select>" +
+                                                    "<input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>");
 
                                             }
                                             else if(curData.status == "S"){
-                                                $("#triggerCatHolder").append("<label>"+curData.name+"</label>" +
-                                                    "<select id='category_status_"+curData.name+"'><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select>" +
-                                                    "<label>Colour:</label><input type='text'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
-                                                    "Color:"+curData.color+" Status: "+ curData.status +"<br/>");
+                                                $("#triggerCatHolder").append("<h3>"+curData.name+"</h3>" +
+                                                    "<select id='category_status_"+curData.name+"' ><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select>" +
+                                                    "<input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>");
 
                                             }
                                             else
                                             {
-                                                $("#triggerCatHolder").append("<label>"+curData.name+"</label>" +
-                                                    "<select id='category_status_"+curData.name+"'><option value='0' selected='selected'>Don't block</option><option value='S'>Soft Block</option><option value='H'>Hard Block</option></select>" +
-                                                    "<label>Colour:</label><input type='text'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>" +
-                                                    "Color:"+curData.color+" Status: "+ curData.status +"<br/>");
+                                                $("#triggerCatHolder").append("<h3>"+curData.name+"</h3>" +
+                                                    "<select id='category_status_"+curData.name+"' ><option value='0' selected='selected'>Don't block</option><option value='S'>Soft Block</option><option value='H'>Hard Block</option></select>" +
+                                                    "<input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>");
                                             }
 
                                         }
 
                                         if(!isCustom){
                                             // add the ability to add custom vars
-                                            $("#triggerCatHolder").append("<p id='addCustom'>Add Custom Category</p>");
-                                            $("#triggerCatHolder").append("<div id='customCategory' style='display:none;'>" +
-                                                "<input type='text' id='customName'/>" +
-                                                "<select id='custom_status'><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select>" +
-                                                "<label>Colour:</label><input type='text' id='custom_color' value='FF0000'><br/>" +
-                                                "<label>Safe Sentence:</label><input type='text' id='customSafe'>"+
-                                                "<label>Triggering Words, comma seperated, no spaces:</label><input type='text' id='customBad'>"+
-                                                "<p id='saveCustom'>Save Custom Category</p>"+
+                                            $("#triggerCatHolder").append("<br/><p id='addCustom' class='submitBnt'>Add Custom Category</p>");
+                                            $("#triggerCatHolder").append("<div id='customCategory' style='display:none;'>" + "<h3>Custom Category</h3>" +
+                                                "<input type='text' id='customName' placeholder='Custom category name'/>" + "<br/>" +
+                                                "<select id='custom_status'><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select><br/>" +
+                                                "<input class='jscolor' style='height:51px;' id='custom_color' value='FF0000'><br/>" +
+                                                "<label>Safe Sentence:</label><input type='text' style='height:51px;' id='customSafe'>"+
+                                                "<label>Triggering Words, comma seperated, no spaces:</label><input type='text' style='height:51px;' id='customBad'>"+
+                                                "<p id='saveCustom' class='submitBnt'>Save Custom Category</p>"+
                                                 "</div>");
 
                                             // add listeners for add Custom etc.
                                             document.getElementById('addCustom').addEventListener('click',makeCustom);
                                             document.getElementById('saveCustom').addEventListener('click',saveCustom);
                                         }
+
+                                        // now that this is all done, let's re-trigger jscolor
+                                        jscolor.installByClassName("jscolor");
                                     });
                                 //callback(jsonResult);
                                 console.log("JSON result end");
@@ -209,7 +209,6 @@ function configPage(){
 }
 
 function makeCustom(){
-    alert("makingCustom");
     $("#addCustom").hide();
     $("#customCategory").show();
 
@@ -239,8 +238,6 @@ function saveCustom(){
 //            "color": "000077"
 //    }
 
-
-    alert("saving custom!");
     chrome.storage.sync.set({
         "triggerCustomCategory": jsonObject
     }, function() {
