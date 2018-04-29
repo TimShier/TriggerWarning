@@ -104,7 +104,7 @@ ul li {
 	font-weight: 400;
 }
 .section-intro {
-	margin:5% 10% 12% 10%;
+	margin:10px 10% 10px 10%;
 	color: #636363;
 	font-size:14px;
 	line-height:21px;
@@ -346,6 +346,11 @@ ul li {
 	margin-right: 15px;
 	display:inline-block
 }
+
+.banner li{
+    color: white;
+    list-style: disc;
+}
 /* ------------------------------------------------------------------------------
 	Overview
 -------------------------------------------------------------------------------*/
@@ -407,9 +412,10 @@ ul li {
 
 .features2 {
 	padding-bottom:0;
+    padding-top:0px;
 }
 .features2-content {
-	margin-top:15%;
+	margin-top:30px;
 }
 .features2-content img {
 	bottom: -100px;
@@ -420,16 +426,21 @@ ul li {
 	font-weight: 300;
 	line-height: 21px;
 	letter-spacing:1px;
-	margin-top:7%;
+	margin-top:10px;
 }
 .features2-content ul {
-	margin-top:7%;
+	margin-top:20px;
+    margin-bottom:20px;
 	line-height:36px;
 	font-weight: 300;
 }
 .features3 {
 	background-color:#f2f2f2;
-	padding-bottom:0;
+	padding-bottom:30px;
+}
+
+.features3 ul li {
+    list-style: disc;
 }
 .features3 img {
 	bottom: -100px;
@@ -521,8 +532,8 @@ ul li {
 	height: 60px;
 	display: block;
 	padding: 0 10px;
-	background-color: #a0ce4e;
-	border: 1px solid #a0ce4e;
+	background-color: #00B8F1;
+	border: 1px solid #00B8F1;
 	color: #fff;
 	-webkit-border-top-right-radius: 2px;
 	-webkit-border-bottom-right-radius: 2px;
@@ -600,7 +611,7 @@ ul li {
 	border:#dedede 1px solid;
 }
 .conForm .submitBnt {
-	background:#a0ce4e;
+	background:#00B8F1;
 	color: #fff;
 	padding: 15px 40px;
 	font-size: 13px;

@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
   // update title to let us know we're covered.
-  document.title = 'TW - we got ya!';
+  document.title = 'Trigger Warning - Make browsing a little safer.';
 
   //to manage the config, we need to load triggerCategories from chrome ext storage.
   // then using this, we need to ask background to run it for us
