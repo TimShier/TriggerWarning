@@ -10,7 +10,6 @@ var data = {};
 
 
 
-// TODO has not been updated for custom settings...
 
 function mergeDataWithCustomCategory(tmpDataJson, tmpCustomCategory){
     // merge a new category with the current data...
@@ -143,9 +142,7 @@ function configPage(){
                                             // for each badCategory...
                                             var curData = data.badCategories[xer];
                                             // this is a bad way to do it but we can improve this later...
-                                            if(curData.isCustom == true){
-                                                isCustom = true;
-                                            }
+
                                             if(curData.status == "H"){
                                                 $("#triggerCatHolder").append("<h3>"+curData.name+"</h3>" +
                                                     "<select id='category_status_"+curData.name+"' ><option value='0'>Don't block</option><option value='S'>Soft Block</option><option value='H' selected='selected'>Hard Block</option></select>" +
@@ -165,13 +162,43 @@ function configPage(){
                                                     "<input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>");
                                             }
 
+                                            if(curData.isCustom == true){
+                                                // there is custom data here...
+                                                isCustom = true;
+
+                                                // so, add an edit option to the div.
+                                                $("#triggerCatHolder").append("<span id='edit_option_" + curData.name+"'>edit custom category ("+curData.name+")</span>")
+
+                                                // add click event trigger.
+                                                $("#edit_option_" + curData.name).on("click", function(){
+                                                    //alert("edit custom");
+                                                    enableEdit(curData.name);
+                                                })
+
+                                                // let's also add a hidden div that contains the edit deets...
+                                                $("#triggerCatHolder").append("<div id='edit_"+curData.name+"' style='display:none;'>" +
+                                                    "<input type='text' id='edit_name_"+curData.name+"' value='"+curData.name+"'/>" + "<br/>" +
+                                                    "<label>Safe Sentence:</label><input type='text' style='height:51px;' id='edit_safe_"+curData.name+"' value='"+curData.safeWords+"'>"+
+                                                    "<label>Triggering Words, comma separated, no spaces:</label><input type='text' style='height:51px;' id='edit_bad_"+curData.name+"' value='"+curData.badWords+"'>"+
+                                                    "<p id='edit_save_"+curData.name+"' class='submitBnt'>Save changes</p>"+
+                                                    "</div>");
+
+                                                // set up event to watch for clicks on save.
+                                                $("#edit_save_"+curData.name).on("click", function(){
+                                                    saveCustomCategory(curData.name);
+                                                    disableEdit(curData.name)
+                                                })
+
+
+                                            }
+
                                         }
 
                                         if(!isCustom){
                                             // add the ability to add custom vars
                                             $("#triggerCatHolder").append("<br/><p id='addCustom' class='submitBnt'>Add Custom Category</p>");
                                             $("#triggerCatHolder").append("<div id='customCategory' style='display:none;'>" + "<h3>Custom Category</h3>" +
-                                                "<input type='text' id='customName' placeholder='Custom category name'/>" + "<br/>" +
+                                                "<input type='text' id='customName' placeholder='One word name'/>" + "<br/>" +
                                                 "<select id='custom_status'><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select><br/>" +
                                                 "<input class='jscolor' style='height:51px;' id='custom_color' value='FF0000'><br/>" +
                                                 "<label>Safe Sentence:</label><input type='text' style='height:51px;' id='customSafe'>"+
@@ -208,10 +235,60 @@ function configPage(){
 
 }
 
+function enableEdit(nameStr){
+    // make the hidden div visible so that editing on safeWord and badWords is activated via form.
+    $("#edit_"+nameStr).show();
+}
+
+function disableEdit(nameStr){
+    // make the hidden div visible so that editing on safeWord and badWords is activated via form.
+    $("#edit_"+nameStr).hide();
+}
+
 function makeCustom(){
     $("#addCustom").hide();
     $("#customCategory").show();
 
+}
+
+// this is basically the "save custom".
+// TODO: migrate both into same method by changing naming in div appends for custom edit.
+
+function saveCustomCategory(catName){
+    // create a JSON object and populate it as if it were a badCategory.
+    var jsonObject = {};
+
+    // now, let's get hold of the variables we need.
+
+    // using specific to custom edit.
+    var name = $("#edit_name"+catName).val();
+
+    // using generic
+    var status = $("#category_status_"+catName).val();
+    var colour = $("#category_color_"+catName).val();
+
+    // using specific to custom edit.
+    var safeWords = $("#edit_safe_"+catName).val();
+    var badWords = $("#edit_bad_"+catName).val(); // need to turn into ["word1", "word2", "word3"] before can save.
+
+    var newBadWords = badWords.split(",");
+
+
+    // add it all to the object...
+    jsonObject[name] = {"name":name, "safeWords": safeWords, "badWords": newBadWords,"status": status, "color":colour, "isCustom":true};
+//    "Cat": {
+//        "name": "Cat",
+//            "safeWord":"Domesticated four legged animal. Dog's chase them.",
+//            "badWords":["cat", "meow", "feline"],
+//            "status": "0",
+//            "color": "000077"
+//    }
+
+    chrome.storage.sync.set({
+        "triggerCustomCategory": jsonObject
+    }, function() {
+        console.log("triggerCustomCategory saved: " + jsonObject);
+    });
 }
 
 function saveCustom(){
@@ -242,6 +319,7 @@ function saveCustom(){
         "triggerCustomCategory": jsonObject
     }, function() {
         console.log("triggerCustomCategory saved: " + jsonObject);
+        alert("Custom settings saved");
     });
 }
 
@@ -335,6 +413,7 @@ function saveSettings() {
         "triggerSettings": returnString
     }, function() {
         console.log("triggerSettings saved: " + returnString);
+        alert("Settings saved.")
     });
 }
 
