@@ -35,8 +35,8 @@ chrome.runtime.onInstalled.addListener(function (object) {
     }
 
     // on install or update, take the user to the CDC website so they can read up more (in particular the disclaimer)
-    chrome.tabs.create({url: "http://citizendialoguecentre.org/about-us/values-statement/"}, function (tab) {
-        console.log("New tab launched with http://citizendialoguecentre.org/about-us/values-statement/");
+    chrome.tabs.create({url: "http://citizendialoguecentre.org/triggerwarning/"}, function (tab) {
+        console.log("New tab launched with http://citizendialoguecentre.org/triggerwarning/");
     });
 });
 
