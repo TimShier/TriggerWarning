@@ -147,13 +147,11 @@ function configPage(){
                                                 $("#triggerCatHolder").append("<h3>"+curData.name+"</h3>" +
                                                     "<select id='category_status_"+curData.name+"' ><option value='0'>Don't block</option><option value='S'>Soft Block</option><option value='H' selected='selected'>Hard Block</option></select>" +
                                                     "<input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>");
-
                                             }
                                             else if(curData.status == "S"){
                                                 $("#triggerCatHolder").append("<h3>"+curData.name+"</h3>" +
                                                     "<select id='category_status_"+curData.name+"' ><option value='0'>Don't block</option><option value='S' selected='selected'>Soft Block</option><option value='H'>Hard Block</option></select>" +
                                                     "<input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>");
-
                                             }
                                             else
                                             {
@@ -161,6 +159,39 @@ function configPage(){
                                                     "<select id='category_status_"+curData.name+"' ><option value='0' selected='selected'>Don't block</option><option value='S'>Soft Block</option><option value='H'>Hard Block</option></select>" +
                                                     "<input class='jscolor'  id='category_color_"+curData.name+"' value='"+curData.color+"'><br/>");
                                             }
+
+                                            // now that the core stuff is in place, let's give the user the ability to see the bad words...
+                                            $("#triggerCatHolder").append("<span id='bad1_"+curData.name+"'>View trigger words</span><span id='bad2_"+curData.name+"' style='display:none;'>Are you sure? They may be triggering.</span><span id='bad_hide_"+curData.name+"' style='display:none;'>Hide words</span><div id='badWords_"+curData.name+"' style='display:none;'><ul id='badWords_ul_"+curData.name+"'></div><br/><a target='_blank' href='https://twitter.com/intent/tweet?text=Hi%20%40cdc_engage%2C%20I%27m%20looking%20at%20category%20%23"+curData.name+"\%2C%20I%27d%20suggest%20adding%20%3Cyour%20word%2Fs%3A)%3E'>Suggest word</a>")
+
+                                            for(var badI in curData.badWords){
+                                                $("#badWords_ul_"+curData.name).append("<li>"+curData.badWords[badI]+"</li>")
+                                            }
+
+                                            console.log("adding listeners for " + curData.name);
+
+                                            // add listener and handle in the functions. Use closure to lock in curData.name
+                                            // this feels like bad code... is there a better way?
+                                            // there must be...
+                                            (function(name){
+                                                    document.getElementById('bad1_' + name).addEventListener("click", function(){
+                                                        clickBadStep1(name)
+                                                    }, false);
+                                            }(curData.name));
+
+                                            (function (name){
+                                                    document.getElementById('bad2_' + name).addEventListener("click", function(){
+                                                        clickBadStep2(name)
+                                                    }, false);
+                                            }(curData.name));
+
+                                            (function (name){
+                                                    document.getElementById('bad_hide_' + name).addEventListener("click", function(){
+                                                        clickHideBad(name)
+                                                    }, false);
+                                            }(curData.name));
+
+
+
 
                                             if(curData.isCustom == true){
                                                 // there is custom data here...
@@ -232,6 +263,57 @@ function configPage(){
         });
     });
 
+
+}
+
+//// add the triggers
+//$("#bad1_"+curData.name).on("click", function(){
+//    // hide bad 1 and show bad 2
+//    $("#bad1_"+curData.name).hide();
+//    $("#bad2_"+curData.name).show();
+//});
+//
+//
+//$("#bad2_"+curData.name).on("click", function(){
+//    // hide bad 2 and show badwords
+//    $("#bad2_"+curData.name).hide();
+//    $("#badWords_"+curData.name).show();
+//    $("#bad_hide_"+curData.name).show();
+//    // show bad_hide
+//});
+//
+//$("#bad_hide_"+curData.name).on("click", function(){
+//    // reset the whole thing...
+//    $("#bad1_"+curData.name).show();
+//    $("#bad2_"+curData.name).hide();
+//    $("#badWords_"+curData.name).hide();
+//    $("#bad_hide_"+curData.name).hide();
+//});
+
+
+//
+function clickBadStep1(catName){
+    // hide bad 1 and show bad 2
+    console.log("click bad 1");
+    $("#bad1_"+catName).hide();
+    $("#bad2_"+catName).show();
+}
+function clickBadStep2(catName){
+    // hide bad 2 and show badwords
+    console.log("click bad 2");
+    $("#bad2_"+catName).hide();
+    $("#badWords_"+catName).show();
+    $("#bad_hide_"+catName).show();
+
+}
+
+function clickHideBad(catName){
+    // reset the whole thing...
+    console.log("click bad hide");
+    $("#bad1_"+catName).show();
+    $("#bad2_"+catName).hide();
+    $("#badWords_"+catName).hide();
+    $("#bad_hide_"+catName).hide();
 
 }
 
