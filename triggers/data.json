@@ -21,6 +21,14 @@
             "badWords":["bird", "chirp", "flock"],
             "status": "0",
             "color": "000077"
+        },
+        "Trigger-Warning": {
+            "name": "Trigger-Warning",
+            "safeWord":"Contains community Trigger Warning",
+            "badWords":["TriggerWarnings","Trigger Warnings","TriggerWarning","Trigger Warning", "#TW", " TW ", "Triggering","Triggered"],
+            "status": "S",
+            "color": "ea4719"
         }
     }
 }
+
