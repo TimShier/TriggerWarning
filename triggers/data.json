@@ -1,34 +1,42 @@
 {
     "version":"0.1",
     "badCategories": {
-        "Dog": {
-            "name": "Dog",
-            "safeWord":"Domesticated four legged animal. Chases Cats",
-            "badWords":["dog", "k9", "canine"],
-            "status": "0",
-            "color": "007700"
-        },
-        "Cat": {
-            "name": "Cat",
-            "safeWord":"Domesticated four legged animal. Dog's chase them.",
-            "badWords":["cat", "meow", "feline"],
-            "status": "0",
-            "color": "000077"
-        },
-        "Birds": {
-            "name": "Birds",
-            "safeWord":"They fly. They eat seed.",
-            "badWords":["bird", "chirp", "flock"],
-            "status": "0",
-            "color": "000077"
-        },
         "Trigger-Warning": {
             "name": "Trigger-Warning",
-            "safeWord":"Contains community Trigger Warning",
+            "safeWord":"Contains community Trigger Warning.",
             "badWords":["TriggerWarnings","Trigger Warnings","TriggerWarning","Trigger Warning", "#TW", " TW ", "Triggering","Triggered"],
             "status": "S",
             "color": "ea4719"
+        },
+        "Sexual-Violence": {
+            "name": "Sexual-Violence",
+            "safeWord":"Sexual violence and associated terms",
+            "badWords":["Rape","Raped","Rapes","Rapist", "Rapists", "Sexual Violence","Sexual Abuse","Sexually Violent", "Sexually Abusive", "Sexually Abused","Sexual Assault","Sexually Assaulted", "Stealthing", "Grope","Groping", "Groped", "Forced Sex", "Coerced Sex", "Coersion","Coerced", "MeToo","AllWomen","ChokedAndPunded","JadaPose","JusticeForKarabo","balancetonporc","EndRapeCulture", "RUReferenceList","OneInThree","IAmOneInThree","#TaxiRapes","#ItCudHappenToMe","MenAreTrash","RememberKwezi"],
+            "status": "0",
+            "color": "ea4719"
+        },
+        "Violence": {
+            "name": "Violence",
+            "safeWord":"Violence and violent behaviour.",
+            "badWords":["Violence","Violent","Killed","Murdered","Murder","Murderer","Murderers","Assault","Assaults","Assaulted","Attacked","Attack","Abuse","Abused","Bombed","Bomber","Bombed","Shot","Shooting","Fatal","Fatality","Fatalities","Dead","Death","Deaths","Died","Arson","Assassinate","Assassination","Assassinations","Assassinated","Assassin","stab","stabbed","stabbing","fought","Fight","Gang","Gangs","Protests","Protested","Protesters","Mobbed","Torched"],
+            "status": "0",
+            "color": "ea4719"
+        },
+        "Abusive-Language-Use": {
+            "name": "Abusive-Language-Use",
+            "safeWord":"Violence and violent behaviour.",
+            "badWords":["Violence","Violent","Killed","Murdered","Murder","Murderer","Murderers","Assault","Assaults","Assaulted","Attacked","Attack","Abuse","Abused","Bombed","Bomber","Bombed","Shot","Shooting","Fatal","Fatality","Fatalities","Dead","Death","Deaths","Died","Arson","Assassinate","Assassination","Assassinations","Assassinated","Assassin","stab","stabbed","stabbing","fought","Fight","Gang","Gangs","Protests","Protested","Protesters","Mobbed","Torched"],
+            "status": "0",
+            "color": "ea4719"
+        },
+        "Drug-Use": {
+            "name": "Drug-Use",
+            "safeWord":"Drugs and related behaviours.",
+            "badWords":["Alcohol","Beer","Wine","Spirits","Booze","Weed","Dagga","Zol","Skyf","Joint","Grass","Pot","Boom","Ganja","420","Mandrax","Buttons","Cocaine","Coke","Rocks","Crack","Blow","Bump","Heroin","Needle","Needles","Inject","Injection","Injections","LSD","Tik","Crystal Meth","Meth","Lollie","Lolly","Vapours","Vapors","Uppers","Downers","Hallucinogens","Dealer","Pusher","Ice","Addiction","addict"],
+            "status": "0",
+            "color": "ea4719"
         }
+
     }
 }
 

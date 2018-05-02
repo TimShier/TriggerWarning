@@ -198,7 +198,7 @@ function configPage(){
                                                 isCustom = true;
 
                                                 // so, add an edit option to the div.
-                                                $("#triggerCatHolder").append("<span id='edit_option_" + curData.name+"'>edit custom category ("+curData.name+")</span>")
+                                                $("#triggerCatHolder").append("<br/><span id='edit_option_" + curData.name+"'>edit custom category ("+curData.name+")</span>")
 
                                                 // add click event trigger.
                                                 $("#edit_option_" + curData.name).on("click", function(){
@@ -343,7 +343,7 @@ function saveCustomCategory(catName){
     // now, let's get hold of the variables we need.
 
     // using specific to custom edit.
-    var name = $("#edit_name"+catName).val();
+    var name = $("#edit_name_"+catName).val();
 
     // using generic
     var status = $("#category_status_"+catName).val();
