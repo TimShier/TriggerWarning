@@ -198,7 +198,8 @@ function configPage(){
                                                 isCustom = true;
 
                                                 // so, add an edit option to the div.
-                                                $("#triggerCatHolder").append("<br/><span id='edit_option_" + curData.name+"'>edit custom category ("+curData.name+")</span>")
+                                                // TODO - re-implement this... currently breaking.
+                                                //$("#triggerCatHolder").append("<br/><span id='edit_option_" + curData.name+"'>edit custom category ("+curData.name+")</span>")
 
                                                 // add click event trigger.
                                                 $("#edit_option_" + curData.name).on("click", function(){
@@ -208,7 +209,8 @@ function configPage(){
 
                                                 // let's also add a hidden div that contains the edit deets...
                                                 $("#triggerCatHolder").append("<div id='edit_"+curData.name+"' style='display:none;'>" +
-                                                    "<input type='text' id='edit_name_"+curData.name+"' value='"+curData.name+"'/>" + "<br/>" +
+                                                    "Category Name: "+curData.name + "<br/>" +
+                                                    "<input type='hidden' id='edit_name_"+curData.name+"' value='"+curData.name+"'/>" + "<br/>" +
                                                     "<label>Safe Sentence:</label><input type='text' style='height:51px;' id='edit_safe_"+curData.name+"' value='"+curData.safeWords+"'>"+
                                                     "<label>Triggering Words, comma separated, no spaces:</label><input type='text' style='height:51px;' id='edit_bad_"+curData.name+"' value='"+curData.badWords+"'>"+
                                                     "<p id='edit_save_"+curData.name+"' class='submitBnt'>Save changes</p>"+
@@ -225,7 +227,8 @@ function configPage(){
 
                                         }
 
-                                        if(!isCustom){
+                                        // TODO - removed custom categories... it's breaking.
+                                        if(!isCustom && false){
                                             // add the ability to add custom vars
                                             $("#triggerCatHolder").append("<br/><p id='addCustom' class='submitBnt'>Add Custom Category</p>");
                                             $("#triggerCatHolder").append("<div id='customCategory' style='display:none;'>" + "<h3>Custom Category</h3>" +
@@ -369,7 +372,9 @@ function saveCustomCategory(catName){
     chrome.storage.sync.set({
         "triggerCustomCategory": jsonObject
     }, function() {
-        console.log("triggerCustomCategory saved: " + jsonObject);
+        console.log("triggerCustomCategory saved");
+        console.log(jsonObject);
+        console.log("End.");
     });
 }
 
